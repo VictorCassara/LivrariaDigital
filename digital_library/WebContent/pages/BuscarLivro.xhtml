@@ -29,8 +29,8 @@
 		</div>
 		<div class="ui-grid ui-grid-responsive">
 				<div class="ui-grid-row">
-						<div class="ui-grid-col-10"
-								style="margin-left: 7%; margin-top: 10px;">
+						<div class="ui-grid-col-12"
+								style="margin-top: 10px;">
 								<h:form id="buscar">
 										<h:panelGrid columns="2" cellpadding="10">
 												<p:dataTable id="book_table" var="book"
@@ -41,7 +41,7 @@
 																filterMatchMode="contains">
 																<h:outputText value="#{book.title}" />
 														</p:column>
-														<p:column filterBy="#{book.autors}" headerText="Autor"
+														<p:column filterBy="#{book.autors}" headerText="Autor" style="width: 400px"
 																filterMatchMode="contains">
 																<h:outputText value="#{book.autors}" />
 														</p:column>
@@ -49,7 +49,7 @@
 																headerText="Editora" filterMatchMode="contains">
 																<h:outputText value="#{book.editor.name}" />
 														</p:column>
-														<p:column filterBy="#{book.categories}"
+														<p:column filterBy="#{book.categories}" style="width: 400px"
 																headerText="Categoria" filterMatchMode="contains">
 																<h:outputText value="#{book.categories}" />
 														</p:column>
