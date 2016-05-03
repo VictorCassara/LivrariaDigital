@@ -16,6 +16,7 @@ import fatec.com.digital_library.dao.impl.EditorDAOImpl;
 import fatec.com.digital_library.entity.Address;
 import fatec.com.digital_library.entity.Editor;
 import fatec.com.digital_library.utility.DigitalLibraryConstants;
+import fatec.com.digital_library.utility.ValidaCNPJ;
 
 @ManagedBean
 @ViewScoped
@@ -34,41 +35,54 @@ public class EditorControl implements Serializable {
 	@ManagedProperty(value = "#{loader}")
 	private Loader loader;
 	private String newCnpj;
-
+	
+	
 	@PostConstruct
 	public void onLoad() {
 		editorList = loader.getEditorList();
 	}
 
 	public void createEditor(Editor editor) {
-		if (editorDAO.fetchEditor(editor) == null) {
-			this.editor.setAddress(this.address);
-			if (editorDAO.addEditor(editor)) {
-				condition = DigitalLibraryConstants.INFO;
-				loader.loadEditors();
-				editorList.add(editor);
-				addMessage(DigitalLibraryConstants.ADD_EDITOR_SUCCESS, condition);
+		if(ValidaCNPJ.isCNPJ(editor.getCnpj())){
+			if (editorDAO.fetchEditor(editor) == null) {
+				this.editor.setAddress(this.address);
+				if (editorDAO.addEditor(editor)) {
+					condition = DigitalLibraryConstants.INFO;
+					loader.loadEditors();
+					editorList.add(editor);
+					addMessage(DigitalLibraryConstants.ADD_EDITOR_SUCCESS, condition);
+				} else {
+					condition = DigitalLibraryConstants.ERROR;
+					addMessage(DigitalLibraryConstants.ADD_EDITOR_FAILURE, condition);
+				}
 			} else {
 				condition = DigitalLibraryConstants.ERROR;
-				addMessage(DigitalLibraryConstants.ADD_EDITOR_FAILURE, condition);
+				addMessage(DigitalLibraryConstants.EDITOR_EXISTS_ERROR, condition);
 			}
-		} else {
+		}
+		else{
 			condition = DigitalLibraryConstants.ERROR;
-			addMessage(DigitalLibraryConstants.EDITOR_EXISTS_ERROR, condition);
+			addMessage(DigitalLibraryConstants.INVALID_CNPJ, condition);
 		}
 	}
 
 	public void alterEditor(Editor editor, String cnpj) {
-		if (editorDAO.updateEditor(editor, cnpj)) {
-			condition = DigitalLibraryConstants.INFO;
-			loader.loadEditors();
-			editorList = loader.getEditorList();
-			this.newCnpj = editor.getCnpj();
-			oldCnpj = newCnpj;
-			addMessage(DigitalLibraryConstants.UPDATE_EDITOR_SUCCESS, condition);
-		} else {
+		if(ValidaCNPJ.isCNPJ(editor.getCnpj())){
+			if (editorDAO.updateEditor(editor, cnpj)) {
+				condition = DigitalLibraryConstants.INFO;
+				loader.loadEditors();
+				editorList = loader.getEditorList();
+				this.newCnpj = editor.getCnpj();
+				oldCnpj = newCnpj;
+				addMessage(DigitalLibraryConstants.UPDATE_EDITOR_SUCCESS, condition);
+			} else {
+				condition = DigitalLibraryConstants.ERROR;
+				addMessage(DigitalLibraryConstants.UPDATE_EDITOR_FAILURE, condition);
+			}
+		}
+		else{
 			condition = DigitalLibraryConstants.ERROR;
-			addMessage(DigitalLibraryConstants.UPDATE_EDITOR_FAILURE, condition);
+			addMessage(DigitalLibraryConstants.INVALID_CNPJ, condition);
 		}
 	}
 

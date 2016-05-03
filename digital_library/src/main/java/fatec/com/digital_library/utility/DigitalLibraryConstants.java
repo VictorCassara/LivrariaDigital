@@ -28,6 +28,7 @@ public final class DigitalLibraryConstants {
 	public static final String INVALID_AUTOR = "Voce precisa selecionar um ou mais autores validos";
 	public static final String INVALID_BOOK = "Dados de livro incorretos. Por favor, verifique e tente novamente";
 	public static final String INVALID_CATEGORY = "Uma categoria deve ser preenchida";
+	public static final String INVALID_CNPJ = "CNPJ inválido";
 	public static final String INEXISTANT_EDITOR = "Editora nao existe";
 	public static final String INEXISTANT_AUTOR = "Autor(es) nao existe(em)";
 	public static final String WARN = "warn";
