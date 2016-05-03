@@ -1,0 +1,29 @@
+.colour {
+    color: #5C666A;
+}
+.regularFont {
+    font-family: 'latoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+.marginBottom20 {
+    margin-bottom: 20px;
+}
+.fontSize30 {
+    font-size: 30px;
+}
+.TextShadow {
+    text-shadow: 0 1px 0 #ffffff;
+}
+.dispBlock {
+    display: block !important;
+}
+
+.defaultText {
+    font-size: 18px;
+    color: #5C666A;
+}
+.dispTable {
+    display: table;
+}
+.TextShadow {
+    text-shadow: 0 1px 0 #ffffff;
+}

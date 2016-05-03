@@ -1,4 +1,4 @@
-package fatec.com.digital_library.entity;
+package fatec.com.digital_library.utility;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -9,22 +9,23 @@ import javax.faces.convert.FacesConverter;
 
 import fatec.com.digital_library.control.Loader;
 
-@FacesConverter("categoryConverter")
-public class CategoryConverter implements Converter {
+@FacesConverter("stateConverter")
+public class StateConverter implements Converter {
 
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			try {
 				Loader loader = (Loader) fc.getExternalContext().getApplicationMap().get("loader");
-				for (int i = 0 ; i < loader.getCategoryList().size() ; i++) {
-					if (loader.getCategoryList().get(i).getCategory().equals(value)){
-						return loader.getCategoryList().get(i);
+				for (int i = 0 ; i < loader.getStateList().size() ; i++) {
+					if (loader.getStateList().get(i).equals(value)){
+						return loader.getStateList().get(i);
 					}
 				}
+				System.out.println("Erro");
 				return null;
 			} catch (NumberFormatException e) {
 				throw new ConverterException(
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid category."));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
 			}
 		} else {
 			return null;
@@ -33,10 +34,9 @@ public class CategoryConverter implements Converter {
 
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if (object != null) {
-			return String.valueOf(((Category) object).getCategory());
+			return String.valueOf(((String) object));
 		} else {
 			return null;
 		}
 	}
-
 }

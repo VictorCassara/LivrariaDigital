@@ -12,181 +12,193 @@
 <h:head>
 		<title>Gerenciamento de editores</title>
 </h:head>
-<h:body>
+<h:body style="background: #eff3f6!important">
 		<ui:insert name="header">
 				<ui:include src="Header.xhtml" />
 		</ui:insert>
 		<ui:insert name="content">
 				<ui:include src="Menu.xhtml" />
 		</ui:insert>
-		<p:tabView id="tab_view_editor">
-				<p:tab title="Cadastrar Editora">
-						<p:growl id="growl" life="2000" />
-						<h:form id="create">
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:outputLabel for="name" value="Nome: "></p:outputLabel>
-										<p:inputText id="name" placeholder="Nome" required="true"
-												type="text" value="#{editorControl.editor.name}"></p:inputText>
-										<p:outputLabel for="street" value="Rua: "></p:outputLabel>
-										<p:inputText id="street"
-												value="#{editorControl.address.streetName}" />
-										<p:outputLabel for="building_number" value="Número:  "></p:outputLabel>
-										<p:inputText id="building_number"
-												value="#{editorControl.address.buildingNumber}" />
-										<p:outputLabel for="area_code" value="CEP:   "></p:outputLabel>
-										<p:inputMask id="area_code" required="true"
-												value="#{editorControl.address.areaCode}" mask="99-999-999" />
-										<p:outputLabel for="state" value="Estado:   "></p:outputLabel>
-										<p:autoComplete id="state" maxResults="10"
-												value="#{editorControl.address.state}"
-												completeMethod="#{editorControl.completeState}" />
-										<p:outputLabel for="city" value="Cidade:   "></p:outputLabel>
-										<p:autoComplete id="city" maxResults="10"
-												value="#{editorControl.address.city}"
-												completeMethod="#{editorControl.completeCity}" />
-										<p:outputLabel for="phone" value="Telefone:  "></p:outputLabel>
-										<p:inputMask id="phone" required="true"
-												value="#{editorControl.editor.phoneNumber}"
-												mask="(99)9999-9999" />
-										<p:outputLabel for="cnpj" value="CNPJ:  "></p:outputLabel>
-										<p:inputMask id="cnpj" required="true"
-												value="#{editorControl.editor.cnpj}"
-												mask="99.999.999/9999-99" />
-								</h:panelGrid>
-								<p:commandButton value="Adicionar"
-										update="tab_view_editor:growl tab_view_editor:remove:editor_table tab_view_editor:update:editor_table_update tab_view_editor:fetch:editor_table_fetch"
-										actionListener="#{editorControl.createEditor(editorControl.editor)}" />
-						</h:form>
-				</p:tab>
-				<p:tab title="Remover Editora">
-						<h:form id="remove">
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:dataTable id="editor_table" var="editor"
-												value="#{editorControl.editorList}" rows="10"
-												paginator="true"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="5,10,15">
-												<p:column filterBy="#{editor.cnpj}" headerText="CNPJ">
-														<h:outputText value="#{editor.cnpj}" />
-												</p:column>
-												<p:column filterBy="#{editor.name}" headerText="Nome">
-														<h:outputText value="#{editor.name}" />
-												</p:column>
-												<p:column headerText="Remover">
-														<p:commandButton value="Remover" style="margin-left: 40%"
-																icon="ui-icon-trash"
-																actionListener="#{editorControl.removeEditor(editor)}"
-																update="tab_view_editor:growl tab_view_editor:remove:editor_table tab_view_editor:update:editor_table_update tab_view_editor:fetch:editor_table_fetch">
-																<p:confirm header="Confirmar Remocao"
-																		message="Voce tem certeza que deseja remover #{editor.name}?"
-																		icon="ui-icon-alert" />
-														</p:commandButton>
-												</p:column>
-										</p:dataTable>
-								</h:panelGrid>
-								<p:confirmDialog global="true" showEffect="fade"
-										hideEffect="fade">
-										<p:commandButton value="Sim" type="button"
-												styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-										<p:commandButton value="Nao" type="button"
-												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-								</p:confirmDialog>
-						</h:form>
-				</p:tab>
-				<p:tab title="Alterar Editora">
-						<h:form id="update">
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:dataTable id="editor_table_update" var="editor"
-												value="#{editorControl.editorList}" rows="10"
-												paginator="true"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="5,10,15">
-												<p:column filterBy="#{editor.cnpj}" headerText="CNPJ">
-														<h:outputText value="#{editor.cnpj}" />
-												</p:column>
-												<p:column filterBy="#{editor.name}" headerText="Nome">
-														<h:outputText value="#{editor.name}" />
-												</p:column>
-												<p:column headerText="Alterar">
-														<p:commandButton value="Selecionar"
-																style="margin-left: 40%"
-																actionListener="#{editorControl.loadUpdateEditor(editor)}"
-																update="tab_view_editor:update2:panel_update" />
-												</p:column>
-										</p:dataTable>
-								</h:panelGrid>
-						</h:form>
-						<h:form id="update2">
-								<p:growl id="growl2" life="2000" />
-								<h:panelGrid id="panel_update" columns="2" cellpadding="10">
-										<p:outputLabel for="name" value="Nome: "></p:outputLabel>
-										<p:inputText id="name" placeholder="Nome:" required="true"
-												type="text" value="#{editorControl.editor.name}"></p:inputText>
-										<p:outputLabel for="street" value="Rua: "></p:outputLabel>
-										<p:inputText id="street"
-												value="#{editorControl.editor.address.streetName}" />
-										<p:outputLabel for="building_number" value="Número:  "></p:outputLabel>
-										<p:inputText id="building_number"
-												value="#{editorControl.editor.address.buildingNumber}" />
-										<p:outputLabel for="area_code" value="CEP:   "></p:outputLabel>
-										<p:inputMask id="area_code" required="true"
-												value="#{editorControl.editor.address.areaCode}"
-												mask="99-999-999" />
-                    <p:outputLabel for="state" value="Estado:   "></p:outputLabel>
-                    <p:autoComplete id="state" maxResults="10"
-                        value="#{editorControl.editor.address.state}"
-                        completeMethod="#{editorControl.completeState}" />
-                    <p:outputLabel for="city" value="Cidade:   "></p:outputLabel>
-                    <p:autoComplete id="city" maxResults="10"
-                        value="#{editorControl.editor.address.city}"
-                        completeMethod="#{editorControl.completeCity}" />
-										<p:outputLabel for="phone" value="Telefone:  "></p:outputLabel>
-										<p:inputMask id="phone" required="true"
-												value="#{editorControl.editor.phoneNumber}"
-												mask="(99)9999-9999" />
-										<p:outputLabel for="cnpj" value="CNPJ:  "></p:outputLabel>
-										<p:inputMask id="cnpj" required="true"
-												value="#{editorControl.editor.cnpj}"
-												mask="99.999.999/9999-99" />
-								</h:panelGrid>
-								<p:commandButton value="Alterar" style="margin-left:11px"
-										actionListener="#{editorControl.alterEditor(editorControl.editor, editorControl.oldCnpj)}"
-										update="tab_view_editor:growl tab_view_editor:remove:editor_table tab_view_editor:update:editor_table_update tab_view_editor:fetch:editor_table_fetch" />
-						</h:form>
-				</p:tab>
-				<p:tab title="Buscar Editora">
-						<h:form id="fetch">
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:dataTable id="editor_table_fetch" var="editor"
-												value="#{editorControl.editorList}" rows="10"
-												paginator="true"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="5,10,15">
-												<p:column filterBy="#{editor.cnpj}" headerText="CNPJ">
-														<h:outputText value="#{editor.cnpj}" />
-												</p:column>
-												<p:column filterBy="#{editor.name}" headerText="Nome">
-														<h:outputText value="#{editor.name}" />
-												</p:column>
-												<p:column headerText="Rua">
-														<h:outputText value="#{editor.address.streetName}" />
-												</p:column>
-												<p:column headerText="Número">
-														<h:outputText value="#{editor.address.buildingNumber}" />
-												</p:column>
-												<p:column headerText="Cidade">
-														<h:outputText value="#{editor.address.city}" />
-												</p:column>
-												<p:column headerText="Estado">
-														<h:outputText value="#{editor.address.state}" />
-												</p:column>
-												<p:column headerText="Telefone">
-														<h:outputText value="#{editor.phoneNumber}" />
-												</p:column>
-										</p:dataTable>
-								</h:panelGrid>
-						</h:form>
-				</p:tab>
-		</p:tabView>
+		<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+						<div class="ui-grid-col-10"
+								style="margin-left: 7%; margin-top: 10px;">
+								<p:tabView id="tab_view_editor">
+										<p:tab title="Cadastrar Editora">
+												<p:growl id="growl" life="2000" />
+												<h:form id="create">
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:outputLabel for="name" value="Nome: "></p:outputLabel>
+																<p:inputText id="name" placeholder="Nome"
+																		required="true" type="text"
+																		value="#{editorControl.editor.name}"></p:inputText>
+																<p:outputLabel for="street" value="Rua: "></p:outputLabel>
+																<p:inputText id="street"
+																		value="#{editorControl.address.streetName}" />
+																<p:outputLabel for="building_number" value="Número:  "></p:outputLabel>
+																<p:inputText id="building_number"
+																		value="#{editorControl.address.buildingNumber}" />
+																<p:outputLabel for="area_code" value="CEP:   "></p:outputLabel>
+																<p:inputMask id="area_code" required="true"
+																		value="#{editorControl.address.areaCode}"
+																		mask="99-999-999" />
+																<p:outputLabel for="state" value="Estado:   "></p:outputLabel>
+																<p:autoComplete id="state" maxResults="10"
+																		value="#{editorControl.address.state}"
+																		completeMethod="#{editorControl.completeState}" />
+																<p:outputLabel for="city" value="Cidade:   "></p:outputLabel>
+																<p:autoComplete id="city" maxResults="10"
+																		value="#{editorControl.address.city}"
+																		completeMethod="#{editorControl.completeCity}" />
+																<p:outputLabel for="phone" value="Telefone:  "></p:outputLabel>
+																<p:inputMask id="phone" required="true"
+																		value="#{editorControl.editor.phoneNumber}"
+																		mask="(99)9999-9999" />
+																<p:outputLabel for="cnpj" value="CNPJ:  "></p:outputLabel>
+																<p:inputMask id="cnpj" required="true"
+																		value="#{editorControl.editor.cnpj}"
+																		mask="99.999.999/9999-99" />
+														</h:panelGrid>
+														<p:commandButton value="Adicionar"
+																update="tab_view_editor:growl tab_view_editor:remove:editor_table tab_view_editor:update:editor_table_update tab_view_editor:fetch:editor_table_fetch"
+																actionListener="#{editorControl.createEditor(editorControl.editor)}" />
+												</h:form>
+										</p:tab>
+										<p:tab title="Remover Editora">
+												<h:form id="remove">
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:dataTable id="editor_table" var="editor"
+																		value="#{editorControl.editorList}" rows="10"
+																		paginator="true"
+																		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																		rowsPerPageTemplate="5,10,15">
+																		<p:column filterBy="#{editor.cnpj}" headerText="CNPJ">
+																				<h:outputText value="#{editor.cnpj}" />
+																		</p:column>
+																		<p:column filterBy="#{editor.name}" headerText="Nome">
+																				<h:outputText value="#{editor.name}" />
+																		</p:column>
+																		<p:column headerText="Remover">
+																				<p:commandButton value="Remover"
+																						style="margin-left: 40%" icon="ui-icon-trash"
+																						actionListener="#{editorControl.removeEditor(editor)}"
+																						update="tab_view_editor:growl tab_view_editor:remove:editor_table tab_view_editor:update:editor_table_update tab_view_editor:fetch:editor_table_fetch">
+																						<p:confirm header="Confirmar Remocao"
+																								message="Voce tem certeza que deseja remover #{editor.name}?"
+																								icon="ui-icon-alert" />
+																				</p:commandButton>
+																		</p:column>
+																</p:dataTable>
+														</h:panelGrid>
+														<p:confirmDialog global="true" showEffect="fade"
+																hideEffect="fade">
+																<p:commandButton value="Sim" type="button"
+																		styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+																<p:commandButton value="Nao" type="button"
+																		styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+														</p:confirmDialog>
+												</h:form>
+										</p:tab>
+										<p:tab title="Alterar Editora">
+												<h:form id="update">
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:dataTable id="editor_table_update" var="editor"
+																		value="#{editorControl.editorList}" rows="10"
+																		paginator="true"
+																		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																		rowsPerPageTemplate="5,10,15">
+																		<p:column filterBy="#{editor.cnpj}" headerText="CNPJ">
+																				<h:outputText value="#{editor.cnpj}" />
+																		</p:column>
+																		<p:column filterBy="#{editor.name}" headerText="Nome">
+																				<h:outputText value="#{editor.name}" />
+																		</p:column>
+																		<p:column headerText="Alterar">
+																				<p:commandButton value="Selecionar"
+																						style="margin-left: 40%"
+																						actionListener="#{editorControl.loadUpdateEditor(editor)}"
+																						update="tab_view_editor:update2:panel_update" />
+																		</p:column>
+																</p:dataTable>
+														</h:panelGrid>
+												</h:form>
+												<h:form id="update2">
+														<p:growl id="growl2" life="2000" />
+														<h:panelGrid id="panel_update" columns="2"
+																cellpadding="10">
+																<p:outputLabel for="name" value="Nome: "></p:outputLabel>
+																<p:inputText id="name" placeholder="Nome:"
+																		required="true" type="text"
+																		value="#{editorControl.editor.name}"></p:inputText>
+																<p:outputLabel for="street" value="Rua: "></p:outputLabel>
+																<p:inputText id="street"
+																		value="#{editorControl.editor.address.streetName}" />
+																<p:outputLabel for="building_number" value="Número:  "></p:outputLabel>
+																<p:inputText id="building_number"
+																		value="#{editorControl.editor.address.buildingNumber}" />
+																<p:outputLabel for="area_code" value="CEP:   "></p:outputLabel>
+																<p:inputMask id="area_code" required="true"
+																		value="#{editorControl.editor.address.areaCode}"
+																		mask="99-999-999" />
+																<p:outputLabel for="state" value="Estado:   "></p:outputLabel>
+																<p:autoComplete id="state" maxResults="10"
+																		value="#{editorControl.editor.address.state}"
+																		completeMethod="#{editorControl.completeState}" />
+																<p:outputLabel for="city" value="Cidade:   "></p:outputLabel>
+																<p:autoComplete id="city" maxResults="10"
+																		value="#{editorControl.editor.address.city}"
+																		completeMethod="#{editorControl.completeCity}" />
+																<p:outputLabel for="phone" value="Telefone:  "></p:outputLabel>
+																<p:inputMask id="phone" required="true"
+																		value="#{editorControl.editor.phoneNumber}"
+																		mask="(99)9999-9999" />
+																<p:outputLabel for="cnpj" value="CNPJ:  "></p:outputLabel>
+																<p:inputMask id="cnpj" required="true"
+																		value="#{editorControl.editor.cnpj}"
+																		mask="99.999.999/9999-99" />
+														</h:panelGrid>
+														<p:commandButton value="Alterar" style="margin-left:11px"
+																actionListener="#{editorControl.alterEditor(editorControl.editor, editorControl.oldCnpj)}"
+																update="tab_view_editor:growl tab_view_editor:remove:editor_table tab_view_editor:update:editor_table_update tab_view_editor:fetch:editor_table_fetch" />
+												</h:form>
+										</p:tab>
+										<p:tab title="Buscar Editora">
+												<h:form id="fetch">
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:dataTable id="editor_table_fetch" var="editor"
+																		value="#{editorControl.editorList}" rows="10"
+																		paginator="true"
+																		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																		rowsPerPageTemplate="5,10,15">
+																		<p:column filterBy="#{editor.cnpj}" headerText="CNPJ">
+																				<h:outputText value="#{editor.cnpj}" />
+																		</p:column>
+																		<p:column filterBy="#{editor.name}" headerText="Nome">
+																				<h:outputText value="#{editor.name}" />
+																		</p:column>
+																		<p:column headerText="Rua">
+																				<h:outputText value="#{editor.address.streetName}" />
+																		</p:column>
+																		<p:column headerText="Número">
+																				<h:outputText
+																						value="#{editor.address.buildingNumber}" />
+																		</p:column>
+																		<p:column headerText="Cidade">
+																				<h:outputText value="#{editor.address.city}" />
+																		</p:column>
+																		<p:column headerText="Estado">
+																				<h:outputText value="#{editor.address.state}" />
+																		</p:column>
+																		<p:column headerText="Telefone">
+																				<h:outputText value="#{editor.phoneNumber}" />
+																		</p:column>
+																</p:dataTable>
+														</h:panelGrid>
+												</h:form>
+										</p:tab>
+								</p:tabView>
+						</div>
+				</div>
+		</div>
 </h:body>
 </html>

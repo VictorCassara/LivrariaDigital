@@ -1,4 +1,4 @@
-package fatec.com.digital_library.entity;
+package fatec.com.digital_library.utility;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -8,17 +8,18 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
 import fatec.com.digital_library.control.Loader;
+import fatec.com.digital_library.entity.Editor;
 
-@FacesConverter("cityConverter")
-public class CityConverter implements Converter {
-	
+@FacesConverter("editorConverter")
+public class EditorConverter implements Converter {
+
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			try {
 				Loader loader = (Loader) fc.getExternalContext().getApplicationMap().get("loader");
-				for (int i = 0; i < loader.getCityList().size(); i++) {
-					if (loader.getCityList().get(i).equals(value)) {
-						return loader.getCityList().get(i);
+				for (int i = 0 ; i < loader.getEditorList().size() ; i++) {
+					if (loader.getEditorList().get(i).getName().equals(value)){
+						return loader.getEditorList().get(i);
 					}
 				}
 				System.out.println("Erro");
@@ -34,7 +35,7 @@ public class CityConverter implements Converter {
 
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if (object != null) {
-			return String.valueOf(((String) object));
+			return String.valueOf(((Editor) object).getName());
 		} else {
 			return null;
 		}

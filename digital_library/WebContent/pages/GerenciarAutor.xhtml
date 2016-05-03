@@ -12,226 +12,250 @@
 <h:head>
 		<title>Gerenciamento de Autores</title>
 </h:head>
-<h:body>
+<h:body style="background: #eff3f6!important">
 		<ui:insert name="header">
 				<ui:include src="Header.xhtml" />
 		</ui:insert>
 		<ui:insert name="content">
 				<ui:include src="Menu.xhtml" />
 		</ui:insert>
-		<p:tabView id="tab_view_autor">
-				<p:tab title="Cadastrar Autor">
-						<h:form id="create">
-								<p:growl id="growl" life="2000" />
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:outputLabel for="name" value="Nome: "></p:outputLabel>
-										<p:inputText id="name" placeholder="Nome completo"
-												required="true" type="text"
-												value="#{autorControl.autor.name}"></p:inputText>
-										<p:outputLabel for="birth_date" value="Data de nascimento: "></p:outputLabel>
-										<p:calendar required="true" id="birth_date"
-												value="#{autorControl.autor.birthDate}"
-												pattern="dd/MM/yyyy HH:mm:ss" />
-										<p:outputLabel for="death_date" value="Data de falecimento: "></p:outputLabel>
-										<p:calendar id="death_date"
-												value="#{autorControl.autor.deathDate}"
-												pattern="dd/MM/yyyy HH:mm:ss" />
-										<p:outputLabel for="biography" value="Biografia:  "></p:outputLabel>
-										<p:inputTextarea id="biography" rows="10" cols="60"
-												maxlength="15000"
-												counterTemplate="{0} characters remaining."
-												autoResize="true" value="#{autorControl.autor.biography}" />
-										<p:outputLabel for="birth_country" value="País de origem:  "></p:outputLabel>
-										<p:inputText id="birth_country"
-												value="#{autorControl.autor.countryOfBirth}" />
-										<p:outputLabel for="birth_state" value="Estado de origem:  "></p:outputLabel>
-										<p:inputText id="birth_state"
-												value="#{autorControl.autor.stateOfBirth}" />
-										<p:outputLabel for="birth_city" value="Cidade de origem:  "></p:outputLabel>
-										<p:inputText id="birth_city"
-												value="#{autorControl.autor.cityOfBirth}" />
-										<p:outputLabel for="death_country"
-												value="País de falecimento:  "></p:outputLabel>
-										<p:inputText id="death_country"
-												value="#{autorControl.autor.countryOfDeath}" />
-										<p:outputLabel for="death_state"
-												value="Estado de falecimento:  "></p:outputLabel>
-										<p:inputText id="death_state"
-												value="#{autorControl.autor.stateOfDeath}" />
-										<p:outputLabel for="death_city"
-												value="Cidade de falecimento:  "></p:outputLabel>
-										<p:inputText id="death_city"
-												value="#{autorControl.autor.cityOfDeath}" />
-								</h:panelGrid>
-								<p:commandButton value="Adicionar" update="growl tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch"
-										actionListener="#{autorControl.createAutor}" />
-						</h:form>
-				</p:tab>
-				<p:tab title="Remover Autor">
-						<h:form id="remove">
-								<p:commandLink id="nonAjax"
-										actionListener="#{autorContorll.refreshAutorList}"
-										update="autor_table">
-										<h:outputText value="Atualizar" />
-								</p:commandLink>
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:dataTable id="autor_table" var="autor"
-												value="#{autorControl.autorList}" rows="10" paginator="true"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="5,10,15">
-												<p:column filterBy="#{autor.name}" headerText="Nome">
-														<h:outputText value="#{autor.name}" />
-												</p:column>
-												<p:column filterBy="#{autor.countryOfBirth}"
-														headerText="País de origem">
-														<h:outputText value="#{autor.countryOfBirth}" />
-												</p:column>
-												<p:column filterBy="#{autor.stateOfBirth}"
-														headerText="Estado de origem">
-														<h:outputText value="#{autor.stateOfBirth}" />
-												</p:column>
-												<p:column headerText="Remover">
-														<p:commandButton value="Remover" style="margin-left: 40%"
-																icon="ui-icon-trash"
-																actionListener="#{autorControl.removeAutor(autor)}"
-																update="tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch">
-																<p:confirm header="Confirmar Remocao"
-																		message="Voce tem certeza que deseja remover #{autor.name}?"
-																		icon="ui-icon-alert" />
-														</p:commandButton>
-												</p:column>
-										</p:dataTable>
-								</h:panelGrid>
-								<p:confirmDialog global="true" showEffect="fade"
-										hideEffect="fade">
-										<p:commandButton value="Sim" type="button"
-												styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-										<p:commandButton value="Nao" type="button"
-												styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-								</p:confirmDialog>
-						</h:form>
-				</p:tab>
-				<p:tab title="Alterar Autor">
-						<h:form id="update">
-								<p:commandLink id="nonAjax"
-										actionListener="#{bookControl.refreshBookList}"
-										update="autor_table_update">
-										<h:outputText value="Atualizar" />
-								</p:commandLink>
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:dataTable id="autor_table_update" var="autor"
-												value="#{autorControl.autorList}" rows="10" paginator="true"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="5,10,15">
-												<p:column filterBy="#{autor.name}" headerText="Nome">
-														<h:outputText value="#{autor.name}" />
-												</p:column>
-												<p:column filterBy="#{autor.countryOfBirth}"
-														headerText="País de origem">
-														<h:outputText value="#{autor.countryOfBirth}" />
-												</p:column>
-												<p:column filterBy="#{autor.stateOfBirth}"
-														headerText="Estado de origem">
-														<h:outputText value="#{autor.stateOfBirth}" />
-												</p:column>
-												<p:column headerText="Selecionar">
-														<p:commandButton value="Selecionar"
-																style="margin-left: 40%"
-																actionListener="#{autorControl.loadUpdateAutor(autor)}"
-																update="tab_view_autor:update:panel_update" />
-												</p:column>
-										</p:dataTable>
-								</h:panelGrid>
-						</h:form>
-						<h:form>
-								<p:growl id="growl2" life="2000" />
-								<h:panelGrid id="panel_update" columns="2" cellpadding="10">
-										<p:outputLabel for="name" value="Nome: "></p:outputLabel>
-										<p:inputText id="name" placeholder="Nome completo"
-												required="true" type="text"
-												value="#{autorControl.autor.name}"></p:inputText>
-										<p:outputLabel for="birth_date" value="Data de nascimento: "></p:outputLabel>
-										<p:calendar required="true" id="birth_date"
-												value="#{autorControl.autor.birthDate}"
-												pattern="dd/MM/yyyy HH:mm:ss" />
-										<p:outputLabel for="death_date" value="Data de falecimento: "></p:outputLabel>
-										<p:calendar id="death_date"
-												value="#{autorControl.autor.deathDate}"
-												pattern="dd/MM/yyyy HH:mm:ss" />
-										<p:outputLabel for="biography" value="Biografia:  "></p:outputLabel>
-										<p:inputTextarea id="biography" rows="10" cols="60"
-												maxlength="15000"
-												counterTemplate="{0} characters remaining."
-												autoResize="true" value="#{autorControl.autor.biography}" />
-										<p:outputLabel for="birth_country" value="País de origem:  "></p:outputLabel>
-										<p:inputText id="birth_country"
-												value="#{autorControl.autor.countryOfBirth}" />
-										<p:outputLabel for="birth_state" value="Estado de origem:  "></p:outputLabel>
-										<p:inputText id="birth_state"
-												value="#{autorControl.autor.stateOfBirth}" />
-										<p:outputLabel for="birth_city" value="Cidade de origem:  "></p:outputLabel>
-										<p:inputText id="birth_city"
-												value="#{autorControl.autor.cityOfBirth}" />
-										<p:outputLabel for="death_country"
-												value="País de falecimento:  "></p:outputLabel>
-										<p:inputText id="death_country"
-												value="#{autorControl.autor.countryOfDeath}" />
-										<p:outputLabel for="death_state"
-												value="Estado de falecimento:  "></p:outputLabel>
-										<p:inputText id="death_state"
-												value="#{autorControl.autor.stateOfDeath}" />
-										<p:outputLabel for="death_city"
-												value="Cidade de falecimento:  "></p:outputLabel>
-										<p:inputText id="death_city"
-												value="#{autorControl.autor.cityOfDeath}" />
-								</h:panelGrid>
-								<p:commandButton value="Alterar" style="margin-left:11px"
-										actionListener="#{bookControl.updateBook}"
-										update="tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch" />
-						</h:form>
-				</p:tab>
-				<p:tab title="Buscar Autor">
-						<h:form id="fetch">
-								<p:commandLink id="nonAjax"
-										actionListener="#{autorContorll.refreshAutorList}"
-										update="autor_table_fetch">
-										<h:outputText value="Atualizar" />
-								</p:commandLink>
-								<h:panelGrid columns="2" cellpadding="10">
-										<p:dataTable id="autor_table_fetch" var="autor"
-												value="#{autorControl.autorList}" rows="10" paginator="true"
-												paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="5,10,15">
-												<p:column filterBy="#{autor.name}" headerText="Nome">
-														<h:outputText value="#{autor.name}" />
-												</p:column>
-												<p:column filterBy="#{autor.countryOfBirth}"
-														headerText="País de origem">
-														<h:outputText value="#{autor.countryOfBirth}" />
-												</p:column>
-												<p:column filterBy="#{autor.stateOfBirth}"
-														headerText="Estado de origem">
-														<h:outputText value="#{autor.stateOfBirth}" />
-												</p:column>
-												<p:column headerText="Cidade de origem">
-														<h:outputText value="#{autor.cityOfBirth}" />
-												</p:column>
-												<p:column headerText="Cidade de falecimento">
-														<h:outputText value="#{autor.cityOfDeath}" />
-												</p:column>
-												<p:column headerText="Estado de falecimento">
-														<h:outputText value="#{autor.stateOfDeath}" />
-												</p:column>
-												<p:column headerText="País de falecimento">
-														<h:outputText value="#{autor.countryOfDeath}" />
-												</p:column>
-												<p:column headerText="Biografia">
-														<h:outputText value="#{autor.biography}" />
-												</p:column>
-										</p:dataTable>
-								</h:panelGrid>
-						</h:form>
-				</p:tab>
-		</p:tabView>
+		<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+						<div class="ui-grid-col-10"
+								style="margin-left: 7%; margin-top: 10px;">
+								<p:tabView id="tab_view_autor">
+										<p:tab title="Cadastrar Autor">
+												<h:form id="create">
+														<p:growl id="growl" life="2000" />
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:outputLabel for="name" value="Nome: "></p:outputLabel>
+																<p:inputText id="name" placeholder="Nome completo"
+																		required="true" type="text"
+																		value="#{autorControl.autor.name}"></p:inputText>
+																<p:outputLabel for="birth_date"
+																		value="Data de nascimento: "></p:outputLabel>
+																<p:calendar required="true" id="birth_date"
+																		value="#{autorControl.autor.birthDate}"
+																		pattern="dd/MM/yyyy HH:mm:ss" />
+																<p:outputLabel for="death_date"
+																		value="Data de falecimento: "></p:outputLabel>
+																<p:calendar id="death_date"
+																		value="#{autorControl.autor.deathDate}"
+																		pattern="dd/MM/yyyy HH:mm:ss" />
+																<p:outputLabel for="biography" value="Biografia:  "></p:outputLabel>
+																<p:inputTextarea id="biography" rows="10" cols="60"
+																		maxlength="15000"
+																		counterTemplate="{0} characters remaining."
+																		autoResize="true"
+																		value="#{autorControl.autor.biography}" />
+																<p:outputLabel for="birth_country"
+																		value="País de origem:  "></p:outputLabel>
+																<p:inputText id="birth_country"
+																		value="#{autorControl.autor.countryOfBirth}" />
+																<p:outputLabel for="birth_state"
+																		value="Estado de origem:  "></p:outputLabel>
+																<p:inputText id="birth_state"
+																		value="#{autorControl.autor.stateOfBirth}" />
+																<p:outputLabel for="birth_city"
+																		value="Cidade de origem:  "></p:outputLabel>
+																<p:inputText id="birth_city"
+																		value="#{autorControl.autor.cityOfBirth}" />
+																<p:outputLabel for="death_country"
+																		value="País de falecimento:  "></p:outputLabel>
+																<p:inputText id="death_country"
+																		value="#{autorControl.autor.countryOfDeath}" />
+																<p:outputLabel for="death_state"
+																		value="Estado de falecimento:  "></p:outputLabel>
+																<p:inputText id="death_state"
+																		value="#{autorControl.autor.stateOfDeath}" />
+																<p:outputLabel for="death_city"
+																		value="Cidade de falecimento:  "></p:outputLabel>
+																<p:inputText id="death_city"
+																		value="#{autorControl.autor.cityOfDeath}" />
+														</h:panelGrid>
+														<p:commandButton value="Adicionar"
+																update="growl tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch"
+																actionListener="#{autorControl.createAutor}" />
+												</h:form>
+										</p:tab>
+										<p:tab title="Remover Autor">
+												<h:form id="remove">
+														<p:commandLink id="nonAjax"
+																actionListener="#{autorContorll.refreshAutorList}"
+																update="autor_table">
+																<h:outputText value="Atualizar" />
+														</p:commandLink>
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:dataTable id="autor_table" var="autor"
+																		value="#{autorControl.autorList}" rows="10"
+																		paginator="true"
+																		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																		rowsPerPageTemplate="5,10,15">
+																		<p:column filterBy="#{autor.name}" headerText="Nome">
+																				<h:outputText value="#{autor.name}" />
+																		</p:column>
+																		<p:column filterBy="#{autor.countryOfBirth}"
+																				headerText="País de origem">
+																				<h:outputText value="#{autor.countryOfBirth}" />
+																		</p:column>
+																		<p:column filterBy="#{autor.stateOfBirth}"
+																				headerText="Estado de origem">
+																				<h:outputText value="#{autor.stateOfBirth}" />
+																		</p:column>
+																		<p:column headerText="Remover">
+																				<p:commandButton value="Remover"
+																						style="margin-left: 40%" icon="ui-icon-trash"
+																						actionListener="#{autorControl.removeAutor(autor)}"
+																						update="tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch">
+																						<p:confirm header="Confirmar Remocao"
+																								message="Voce tem certeza que deseja remover #{autor.name}?"
+																								icon="ui-icon-alert" />
+																				</p:commandButton>
+																		</p:column>
+																</p:dataTable>
+														</h:panelGrid>
+														<p:confirmDialog global="true" showEffect="fade"
+																hideEffect="fade">
+																<p:commandButton value="Sim" type="button"
+																		styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+																<p:commandButton value="Nao" type="button"
+																		styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+														</p:confirmDialog>
+												</h:form>
+										</p:tab>
+										<p:tab title="Alterar Autor">
+												<h:form id="update">
+														<p:commandLink id="nonAjax"
+																actionListener="#{bookControl.refreshBookList}"
+																update="autor_table_update">
+																<h:outputText value="Atualizar" />
+														</p:commandLink>
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:dataTable id="autor_table_update" var="autor"
+																		value="#{autorControl.autorList}" rows="10"
+																		paginator="true"
+																		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																		rowsPerPageTemplate="5,10,15">
+																		<p:column filterBy="#{autor.name}" headerText="Nome">
+																				<h:outputText value="#{autor.name}" />
+																		</p:column>
+																		<p:column filterBy="#{autor.countryOfBirth}"
+																				headerText="País de origem">
+																				<h:outputText value="#{autor.countryOfBirth}" />
+																		</p:column>
+																		<p:column filterBy="#{autor.stateOfBirth}"
+																				headerText="Estado de origem">
+																				<h:outputText value="#{autor.stateOfBirth}" />
+																		</p:column>
+																		<p:column headerText="Selecionar">
+																				<p:commandButton value="Selecionar"
+																						style="margin-left: 40%"
+																						actionListener="#{autorControl.loadUpdateAutor(autor)}"
+																						update="tab_view_autor:update:panel_update" />
+																		</p:column>
+																</p:dataTable>
+														</h:panelGrid>
+												</h:form>
+												<h:form>
+														<p:growl id="growl2" life="2000" />
+														<h:panelGrid id="panel_update" columns="2"
+																cellpadding="10">
+																<p:outputLabel for="name" value="Nome: "></p:outputLabel>
+																<p:inputText id="name" placeholder="Nome completo"
+																		required="true" type="text"
+																		value="#{autorControl.autor.name}"></p:inputText>
+																<p:outputLabel for="birth_date"
+																		value="Data de nascimento: "></p:outputLabel>
+																<p:calendar required="true" id="birth_date"
+																		value="#{autorControl.autor.birthDate}"
+																		pattern="dd/MM/yyyy HH:mm:ss" />
+																<p:outputLabel for="death_date"
+																		value="Data de falecimento: "></p:outputLabel>
+																<p:calendar id="death_date"
+																		value="#{autorControl.autor.deathDate}"
+																		pattern="dd/MM/yyyy HH:mm:ss" />
+																<p:outputLabel for="biography" value="Biografia:  "></p:outputLabel>
+																<p:inputTextarea id="biography" rows="10" cols="60"
+																		maxlength="15000"
+																		counterTemplate="{0} characters remaining."
+																		autoResize="true"
+																		value="#{autorControl.autor.biography}" />
+																<p:outputLabel for="birth_country"
+																		value="País de origem:  "></p:outputLabel>
+																<p:inputText id="birth_country"
+																		value="#{autorControl.autor.countryOfBirth}" />
+																<p:outputLabel for="birth_state"
+																		value="Estado de origem:  "></p:outputLabel>
+																<p:inputText id="birth_state"
+																		value="#{autorControl.autor.stateOfBirth}" />
+																<p:outputLabel for="birth_city"
+																		value="Cidade de origem:  "></p:outputLabel>
+																<p:inputText id="birth_city"
+																		value="#{autorControl.autor.cityOfBirth}" />
+																<p:outputLabel for="death_country"
+																		value="País de falecimento:  "></p:outputLabel>
+																<p:inputText id="death_country"
+																		value="#{autorControl.autor.countryOfDeath}" />
+																<p:outputLabel for="death_state"
+																		value="Estado de falecimento:  "></p:outputLabel>
+																<p:inputText id="death_state"
+																		value="#{autorControl.autor.stateOfDeath}" />
+																<p:outputLabel for="death_city"
+																		value="Cidade de falecimento:  "></p:outputLabel>
+																<p:inputText id="death_city"
+																		value="#{autorControl.autor.cityOfDeath}" />
+														</h:panelGrid>
+														<p:commandButton value="Alterar" style="margin-left:11px"
+																actionListener="#{bookControl.updateBook}"
+																update="tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch" />
+												</h:form>
+										</p:tab>
+										<p:tab title="Buscar Autor">
+												<h:form id="fetch">
+														<p:commandLink id="nonAjax"
+																actionListener="#{autorContorll.refreshAutorList}"
+																update="autor_table_fetch">
+																<h:outputText value="Atualizar" />
+														</p:commandLink>
+														<h:panelGrid columns="2" cellpadding="10">
+																<p:dataTable id="autor_table_fetch" var="autor"
+																		value="#{autorControl.autorList}" rows="10"
+																		paginator="true"
+																		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+																		rowsPerPageTemplate="5,10,15">
+																		<p:column filterBy="#{autor.name}" headerText="Nome">
+																				<h:outputText value="#{autor.name}" />
+																		</p:column>
+																		<p:column filterBy="#{autor.countryOfBirth}"
+																				headerText="País de origem">
+																				<h:outputText value="#{autor.countryOfBirth}" />
+																		</p:column>
+																		<p:column filterBy="#{autor.stateOfBirth}"
+																				headerText="Estado de origem">
+																				<h:outputText value="#{autor.stateOfBirth}" />
+																		</p:column>
+																		<p:column headerText="Cidade de origem">
+																				<h:outputText value="#{autor.cityOfBirth}" />
+																		</p:column>
+																		<p:column headerText="Cidade de falecimento">
+																				<h:outputText value="#{autor.cityOfDeath}" />
+																		</p:column>
+																		<p:column headerText="Estado de falecimento">
+																				<h:outputText value="#{autor.stateOfDeath}" />
+																		</p:column>
+																		<p:column headerText="País de falecimento">
+																				<h:outputText value="#{autor.countryOfDeath}" />
+																		</p:column>
+																		<p:column headerText="Biografia">
+																				<h:outputText value="#{autor.biography}" />
+																		</p:column>
+																</p:dataTable>
+														</h:panelGrid>
+												</h:form>
+										</p:tab>
+								</p:tabView>
+						</div>
+				</div>
+		</div>
 </h:body>
 </html>
