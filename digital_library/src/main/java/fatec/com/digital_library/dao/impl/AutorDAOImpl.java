@@ -63,4 +63,194 @@ public class AutorDAOImpl implements AutorDAO {
 		}
 		return autorList;
 	}
+	@Override
+	public boolean createAutor(Autor autor) {
+		DatabaseConnection dbCon;
+		PreparedStatement ps;
+		Connection con;
+		dbCon = new DatabaseConnection();
+		builder = new StringBuilder();
+		con = dbCon.getConnection();
+		builder.append("INSERT INTO library.autor(name, date_of_death, date_of_birth, country_of_birth, state_of_birth, city_of_birth, country_of_death, state_of_death, city_of_death, biography) ");
+		builder.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		dml = builder.toString();
+		
+		try {
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(dml);
+			ps.setString(1, autor.getName());
+			java.util.Date javaDate = autor.getDeathDate();
+			java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(2, sqlDate);
+			javaDate = autor.getBirthDate();
+			sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(3, sqlDate);
+			ps.setString(4, autor.getCountryOfBirth());
+			ps.setString(5, autor.getStateOfBirth());
+			ps.setString(6, autor.getCityOfBirth());
+			ps.setString(7, autor.getCountryOfDeath());
+			ps.setString(8, autor.getStateOfDeath());
+			ps.setString(9, autor.getCityOfDeath());
+			ps.setString(10, autor.getBiography());
+			
+			if (ps.executeUpdate() > 0) {
+				ps.close();
+				con.commit();
+				con.close();
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateAutor(Autor autor, Autor oldAutor) {
+		DatabaseConnection dbCon;
+		PreparedStatement ps;
+		Connection con;
+		dbCon = new DatabaseConnection();
+		builder = new StringBuilder();
+		con = dbCon.getConnection();
+		builder.append("UPDATE library.autor SET name = ?, date_of_death = ?, date_of_birth = ?, country_of_birth = ? , state_of_birth = ?, city_of_birth = ?, country_of_death = ?, state_of_death = ?, city_of_death = ?, biography = ? ");
+		builder.append("WHERE name = ? AND date_of_birth = ? AND country_of_birth = ? AND state_of_birth = ? AND city_of_birth = ?");
+		dml = builder.toString();
+		
+		try {
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(dml);
+			ps.setString(1, autor.getName());
+			java.util.Date javaDate = autor.getDeathDate();
+			java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(2, sqlDate);
+			javaDate = autor.getBirthDate();
+			sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(3, sqlDate);
+			ps.setString(4, autor.getCountryOfBirth());
+			ps.setString(5, autor.getStateOfBirth());
+			ps.setString(6, autor.getCityOfBirth());
+			ps.setString(7, autor.getCountryOfDeath());
+			ps.setString(8, autor.getStateOfDeath());
+			ps.setString(9, autor.getCityOfDeath());
+			ps.setString(10, autor.getBiography());
+			ps.setString(11, oldAutor.getName());
+			javaDate = oldAutor.getBirthDate();
+			sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(12, sqlDate);
+			ps.setString(13, oldAutor.getCountryOfBirth());
+			ps.setString(14, oldAutor.getStateOfBirth());
+			ps.setString(15, oldAutor.getCityOfBirth());
+			
+			if (ps.executeUpdate() > 0) {
+				ps.close();
+				con.commit();
+				con.close();
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean removeAutor(Autor autor) {
+		DatabaseConnection dbCon;
+		PreparedStatement ps;
+		Connection con;
+		dbCon = new DatabaseConnection();
+		builder = new StringBuilder();
+		con = dbCon.getConnection();
+		
+		builder.append("DELETE FROM library.autor ");
+		builder.append(" WHERE name = ? AND date_of_birth = ? AND country_of_birth = ? AND state_of_birth = ? AND city_of_birth = ? ");
+		dml = builder.toString();
+		
+		try {
+			con.setAutoCommit(false);
+			ps = con.prepareStatement(dml);
+			
+			ps.setString(1, autor.getName());
+			java.util.Date javaDate = autor.getBirthDate();
+			java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(2, sqlDate);
+			ps.setString(3, autor.getCountryOfBirth());
+			ps.setString(4, autor.getStateOfBirth());
+			ps.setString(5, autor.getCityOfBirth());
+			
+			if (ps.executeUpdate() > 0) {
+				ps.close();
+				con.commit();
+				con.close();
+				return true;
+			} else {
+				ps.close();
+				con.close();
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public Autor fetchAutor(Autor autor) {
+		DatabaseConnection dbCon;
+		PreparedStatement ps;
+		Connection con;
+		ResultSet rs;
+		dbCon = new DatabaseConnection();
+		builder = new StringBuilder();
+		con = dbCon.getConnection();
+		Autor fetchedAutor = null;
+		builder.append("SELECT name, date_of_death, date_of_birth, country_of_birth, state_of_birth, city_of_birth, country_of_death, state_of_death, city_of_death, biography FROM library.autor ");
+		builder.append("WHERE name = ? AND date_of_birth = ? AND country_of_birth = ? AND state_of_birth = ? AND city_of_birth = ? ");
+		query = builder.toString();
+		
+		try {
+			ps = con.prepareStatement(query);
+			ps.setString(1, autor.getName());
+			java.util.Date javaDate = autor.getBirthDate();
+			java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
+			ps.setDate(2, sqlDate);
+			ps.setString(3, autor.getCountryOfBirth());
+			ps.setString(4, autor.getStateOfBirth());
+			ps.setString(5, autor.getCityOfBirth());
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				fetchedAutor = new Autor();
+				fetchedAutor.setName(rs.getString(1));
+				sqlDate = rs.getDate(2);
+				javaDate = new java.util.Date(sqlDate.getTime());
+				fetchedAutor.setDeathDate(javaDate);
+				sqlDate = rs.getDate(3);
+				javaDate = new java.util.Date(sqlDate.getTime());
+				fetchedAutor.setBirthDate(javaDate);
+				fetchedAutor.setCountryOfBirth(rs.getString(4));
+				fetchedAutor.setStateOfBirth(rs.getString(5));
+				fetchedAutor.setCityOfBirth(rs.getString(6));
+				fetchedAutor.setCountryOfDeath(rs.getString(7));
+				fetchedAutor.setStateOfDeath(rs.getString(8));
+				fetchedAutor.setCityOfDeath(rs.getString(9));
+				fetchedAutor.setBiography(rs.getString(10));
+			}
+			
+			ps.close();
+			rs.close();
+			con.close();
+			return fetchedAutor;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}		
+		return null;
+	}
 }

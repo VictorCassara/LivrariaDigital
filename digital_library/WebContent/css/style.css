@@ -27,3 +27,38 @@
 .TextShadow {
     text-shadow: 0 1px 0 #ffffff;
 }
+
+.fontSize30 {
+    font-size: 30px;
+}
+.dispBlock {
+    display: block !important;
+}
+.logoDarkText {
+    color: #5c666a;
+}
+#LOGOTEXTSIDE {
+    line-height: 30px;
+}
+a {
+    color: #25AAE1;
+}
+
+.regularFont {
+    font-family: 'latoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+.fontSize28 {
+    font-size: 28px;
+}
+.dispBlock {
+    display: block !important;
+}
+.logoBlueText {
+    color: #25aae1;
+}
+#LOGOTEXTSIDE {
+    line-height: 30px;
+}
+a {
+    color: #25AAE1;
+}
