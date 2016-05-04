@@ -117,7 +117,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 			e.printStackTrace();
 		}
 		return false;
-		
 	}
 
 	@Override

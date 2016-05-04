@@ -11,6 +11,7 @@
 
 <h:head>
 		<title>Gerenciamento de Autores</title>
+		<link type="text/css" rel="stylesheet" href="../css/style.css?ln=css" />
 </h:head>
 <h:body style="background: #eff3f6!important">
 		<ui:insert name="header">
@@ -25,8 +26,8 @@
 								style="margin-left: 7%; margin-top: 10px;">
 								<p:tabView id="tab_view_autor">
 										<p:tab title="Cadastrar Autor">
+												<p:growl id="growl" life="2000" />
 												<h:form id="create">
-														<p:growl id="growl" life="2000" />
 														<h:panelGrid columns="2" cellpadding="10">
 																<p:outputLabel for="name" value="Nome: "></p:outputLabel>
 																<p:inputText id="name" placeholder="Nome completo"
@@ -36,12 +37,12 @@
 																		value="Data de nascimento: "></p:outputLabel>
 																<p:calendar required="true" id="birth_date"
 																		value="#{autorControl.autor.birthDate}"
-																		pattern="dd/MM/yyyy HH:mm:ss" />
+																		pattern="dd/MM/yyyy HH:mm" />
 																<p:outputLabel for="death_date"
 																		value="Data de falecimento: "></p:outputLabel>
 																<p:calendar id="death_date"
 																		value="#{autorControl.autor.deathDate}"
-																		pattern="dd/MM/yyyy HH:mm:ss" />
+																		pattern="dd/MM/yyyy HH:mm" />
 																<p:outputLabel for="biography" value="Biografia:  "></p:outputLabel>
 																<p:inputTextarea id="biography" rows="10" cols="60"
 																		maxlength="15000"
@@ -50,32 +51,41 @@
 																		value="#{autorControl.autor.biography}" />
 																<p:outputLabel for="birth_country"
 																		value="País de origem:  "></p:outputLabel>
-																<p:inputText id="birth_country"
-																		value="#{autorControl.autor.countryOfBirth}" />
+																<p:autoComplete id="birth_country" maxResults="10"
+																		value="#{autorControl.autor.countryOfBirth}"
+																		required="true"
+																		completeMethod="#{autorControl.completeCountry}" />
 																<p:outputLabel for="birth_state"
 																		value="Estado de origem:  "></p:outputLabel>
-																<p:inputText id="birth_state"
-																		value="#{autorControl.autor.stateOfBirth}" />
+																<p:autoComplete id="birth_state" maxResults="10"
+																		required="true"
+																		value="#{autorControl.autor.stateOfBirth}"
+																		completeMethod="#{autorControl.completeState}" />
 																<p:outputLabel for="birth_city"
 																		value="Cidade de origem:  "></p:outputLabel>
-																<p:inputText id="birth_city"
-																		value="#{autorControl.autor.cityOfBirth}" />
+																<p:autoComplete id="birth_city" maxResults="10"
+																		value="#{autorControl.autor.cityOfBirth}"
+																		required="true"
+																		completeMethod="#{autorControl.completeCity}" />
 																<p:outputLabel for="death_country"
 																		value="País de falecimento:  "></p:outputLabel>
-																<p:inputText id="death_country"
-																		value="#{autorControl.autor.countryOfDeath}" />
+																<p:autoComplete id="death_country" maxResults="10"
+																		value="#{autorControl.autor.countryOfDeath}"
+																		completeMethod="#{autorControl.completeCountry}" />
 																<p:outputLabel for="death_state"
 																		value="Estado de falecimento:  "></p:outputLabel>
-																<p:inputText id="death_state"
-																		value="#{autorControl.autor.stateOfDeath}" />
+																<p:autoComplete id="death_state" maxResults="10"
+																		value="#{editorControl.address.state}"
+																		completeMethod="#{autorControl.completeState}" />
 																<p:outputLabel for="death_city"
 																		value="Cidade de falecimento:  "></p:outputLabel>
-																<p:inputText id="death_city"
-																		value="#{autorControl.autor.cityOfDeath}" />
+																<p:autoComplete id="death_city" maxResults="10"
+																		value="#{autorControl.autor.cityOfDeath}"
+																		completeMethod="#{autorControl.completeCity}" />
 														</h:panelGrid>
 														<p:commandButton value="Adicionar"
-																update="growl tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch"
-																actionListener="#{autorControl.createAutor}" />
+																update="tab_view_autor:growl tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch"
+																actionListener="#{autorControl.createAutor(autorControl.autor)}" />
 												</h:form>
 										</p:tab>
 										<p:tab title="Remover Autor">
@@ -106,7 +116,7 @@
 																				<p:commandButton value="Remover"
 																						style="margin-left: 40%" icon="ui-icon-trash"
 																						actionListener="#{autorControl.removeAutor(autor)}"
-																						update="tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch">
+																						update="tab_view_autor:growl tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch">
 																						<p:confirm header="Confirmar Remocao"
 																								message="Voce tem certeza que deseja remover #{autor.name}?"
 																								icon="ui-icon-alert" />
@@ -151,12 +161,12 @@
 																				<p:commandButton value="Selecionar"
 																						style="margin-left: 40%"
 																						actionListener="#{autorControl.loadUpdateAutor(autor)}"
-																						update="tab_view_autor:update:panel_update" />
+																						update="tab_view_autor:growl tab_view_autor:update2:panel_update" />
 																		</p:column>
 																</p:dataTable>
 														</h:panelGrid>
 												</h:form>
-												<h:form>
+												<h:form id="update2">
 														<p:growl id="growl2" life="2000" />
 														<h:panelGrid id="panel_update" columns="2"
 																cellpadding="10">
@@ -168,12 +178,12 @@
 																		value="Data de nascimento: "></p:outputLabel>
 																<p:calendar required="true" id="birth_date"
 																		value="#{autorControl.autor.birthDate}"
-																		pattern="dd/MM/yyyy HH:mm:ss" />
+																		pattern="dd/MM/yyyy HH:mm" />
 																<p:outputLabel for="death_date"
 																		value="Data de falecimento: "></p:outputLabel>
 																<p:calendar id="death_date"
 																		value="#{autorControl.autor.deathDate}"
-																		pattern="dd/MM/yyyy HH:mm:ss" />
+																		pattern="dd/MM/yyyy HH:mm" />
 																<p:outputLabel for="biography" value="Biografia:  "></p:outputLabel>
 																<p:inputTextarea id="biography" rows="10" cols="60"
 																		maxlength="15000"
@@ -206,8 +216,8 @@
 																		value="#{autorControl.autor.cityOfDeath}" />
 														</h:panelGrid>
 														<p:commandButton value="Alterar" style="margin-left:11px"
-																actionListener="#{bookControl.updateBook}"
-																update="tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch" />
+																actionListener="#{autorControl.alterAutor(autorControl.autor, autorControl.oldAutor)}"
+																update="tab_view_autor:growl tab_view_autor:remove:autor_table tab_view_autor:update:autor_table_update tab_view_autor:fetch:autor_table_fetch" />
 												</h:form>
 										</p:tab>
 										<p:tab title="Buscar Autor">
