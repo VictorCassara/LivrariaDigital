@@ -41,7 +41,7 @@
 																filterMatchMode="contains">
 																<h:outputText value="#{book.title}" />
 														</p:column>
-														<p:column filterBy="#{book.autors}" headerText="Autor" style="width: 400px"
+														<p:column filterBy="#{book.autors}" headerText="Autor"
 																filterMatchMode="contains">
 																<h:outputText value="#{book.autors}" />
 														</p:column>
@@ -49,15 +49,15 @@
 																headerText="Editora" filterMatchMode="contains">
 																<h:outputText value="#{book.editor.name}" />
 														</p:column>
-														<p:column filterBy="#{book.categories}" style="width: 400px"
+														<p:column filterBy="#{book.categories}" 
 																headerText="Categoria" filterMatchMode="contains">
 																<h:outputText value="#{book.categories}" />
 														</p:column>
-														<p:column headerText="Preço" style="width: 70px">
+														<p:column headerText="Preço" >
 																<h:outputText value="#{book.salePrice}" />
 														</p:column>
-														<p:column headerText="Quantidade" style="width: 200px">
-																<pe:inputNumber id="item_quantity" required="true" style="width: 20px"
+														<p:column headerText="Quantidade">
+																<pe:inputNumber id="item_quantity" required="true"
 																		value="#{book.quantity}"
 																		validatorMessage="Voce deve adicionar, no minimo, 1 item ao seu carrinho">
 																		<f:validateDoubleRange minimum="1" />
