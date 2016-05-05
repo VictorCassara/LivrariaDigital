@@ -35,13 +35,20 @@ public class AutorDAOImpl implements AutorDAO {
 		try {
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
-			
+			java.util.Date javaDate = null;
 			while (rs.next()) {
 				Autor autor = new Autor();
 				autor.setName(rs.getString(1));
-				java.util.Date javaDate = new java.sql.Date(rs.getDate(2).getTime());
+				
+				if (rs.getDate(2) != null) {
+					javaDate = new java.sql.Date(rs.getDate(2).getTime());
+				}
+				
 				autor.setDeathDate(javaDate);
-				javaDate = new java.sql.Date(rs.getDate(3).getTime());
+				
+				if (rs.getDate(3) != null) {
+					javaDate = new java.sql.Date(rs.getDate(3).getTime());
+				}
 				autor.setBirthDate(javaDate);
 				autor.setCountryOfBirth(rs.getString(4));
 				autor.setStateOfBirth(rs.getString(5));
@@ -74,16 +81,25 @@ public class AutorDAOImpl implements AutorDAO {
 		builder.append("INSERT INTO library.autor(name, date_of_death, date_of_birth, country_of_birth, state_of_birth, city_of_birth, country_of_death, state_of_death, city_of_death, biography) ");
 		builder.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		dml = builder.toString();
-		
+		java.util.Date javaDate = null;
+		java.sql.Date sqlDate = null;
 		try {
 			con.setAutoCommit(false);
 			ps = con.prepareStatement(dml);
 			ps.setString(1, autor.getName());
-			java.util.Date javaDate = autor.getDeathDate();
-			java.sql.Date sqlDate = new java.sql.Date(javaDate.getTime());
+			
+			if(autor.getDeathDate() != null) {
+				javaDate = autor.getDeathDate();
+				sqlDate = new java.sql.Date(javaDate.getTime());
+			}
+			
 			ps.setDate(2, sqlDate);
-			javaDate = autor.getBirthDate();
-			sqlDate = new java.sql.Date(javaDate.getTime());
+			
+			if(autor.getDeathDate() != null) {
+				javaDate = autor.getBirthDate();
+				sqlDate = new java.sql.Date(javaDate.getTime());
+			}
+			
 			ps.setDate(3, sqlDate);
 			ps.setString(4, autor.getCountryOfBirth());
 			ps.setString(5, autor.getStateOfBirth());

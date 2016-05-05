@@ -75,7 +75,7 @@
 																<p:outputLabel for="death_state"
 																		value="Estado de falecimento:  "></p:outputLabel>
 																<p:autoComplete id="death_state" maxResults="10"
-																		value="#{editorControl.address.state}"
+																		value="#{autorControl.autor.stateOfDeath}"
 																		completeMethod="#{autorControl.completeState}" />
 																<p:outputLabel for="death_city"
 																		value="Cidade de falecimento:  "></p:outputLabel>
@@ -90,11 +90,6 @@
 										</p:tab>
 										<p:tab title="Remover Autor">
 												<h:form id="remove">
-														<p:commandLink id="nonAjax"
-																actionListener="#{autorContorll.refreshAutorList}"
-																update="autor_table">
-																<h:outputText value="Atualizar" />
-														</p:commandLink>
 														<h:panelGrid columns="2" cellpadding="10">
 																<p:dataTable id="autor_table" var="autor"
 																		value="#{autorControl.autorList}" rows="10"
@@ -135,11 +130,6 @@
 										</p:tab>
 										<p:tab title="Alterar Autor">
 												<h:form id="update">
-														<p:commandLink id="nonAjax"
-																actionListener="#{bookControl.refreshBookList}"
-																update="autor_table_update">
-																<h:outputText value="Atualizar" />
-														</p:commandLink>
 														<h:panelGrid columns="2" cellpadding="10">
 																<p:dataTable id="autor_table_update" var="autor"
 																		value="#{autorControl.autorList}" rows="10"
@@ -222,11 +212,6 @@
 										</p:tab>
 										<p:tab title="Buscar Autor">
 												<h:form id="fetch">
-														<p:commandLink id="nonAjax"
-																actionListener="#{autorContorll.refreshAutorList}"
-																update="autor_table_fetch">
-																<h:outputText value="Atualizar" />
-														</p:commandLink>
 														<h:panelGrid columns="2" cellpadding="10">
 																<p:dataTable id="autor_table_fetch" var="autor"
 																		value="#{autorControl.autorList}" rows="10"
