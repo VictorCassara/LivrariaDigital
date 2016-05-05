@@ -134,11 +134,11 @@ ALTER TABLE library.book_autor
 
 CREATE TABLE library.country (
   country_id INTEGER,
-  portuguese_name VARCHAR2(100),
-  english_name VARCHAR2(100),
+  portuguese_name VARCHAR(100),
+  english_name VARCHAR(100),
   PRIMARY KEY (country_id));
   
-INSERT INTO `pais` (`paisId`, `paisNome`, `paisName`) VALUES
+INSERT INTO library.country VALUES
 (1, 'AFEGANISTÃO', 'AFGHANISTAN'),
 (2, 'ACROTÍRI E DECELIA', 'AKROTIRI E DEKÉLIA'),
 (3, 'ÁFRICA DO SUL', 'SOUTH AFRICA'),
