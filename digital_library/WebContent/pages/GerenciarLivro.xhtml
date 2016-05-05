@@ -283,7 +283,7 @@
 																				<p:outputLabel for="sale_price"
 																						value="Valor de venda(R$):  "></p:outputLabel>
 																				<pe:inputNumber id="sale_price"
-																						value="#{bookControl.book.salePrice}" symbol="$ "
+																						value="#{bookControl.book.salePrice}" symbol="R$ "
 																						validatorMessage="O valor deve ser igual ou maior que R$0.00">
 																						<f:validateDoubleRange minimum="0" />
 																				</pe:inputNumber>
@@ -294,7 +294,7 @@
 																						value="#{bookControl.book.stockQuantity}" />
 																				<p:outputLabel for="cost_price" value="Custo:  "></p:outputLabel>
 																				<pe:inputNumber id="cost_price"
-																						value="#{bookControl.book.costPrice}" symbol="$ "
+																						value="#{bookControl.book.costPrice}" symbol="R$ "
 																						validatorMessage="O valor deve ser igual ou maior que R$0.00">
 																						<f:validateDoubleRange minimum="0" />
 																				</pe:inputNumber>

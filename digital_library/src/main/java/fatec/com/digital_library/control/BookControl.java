@@ -122,6 +122,7 @@ public class BookControl implements Serializable {
 		
 		this.book.setAutorList(selectedNewAutors);
 		this.book.setCategory(selectNewCategories);
+		this.book.setEditor(this.editor);
 		
 		if (bookDAO.updateBook(book, newIsbn)) {
 			loader.loadBooks();
